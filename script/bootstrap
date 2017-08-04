@@ -4,7 +4,27 @@ function main {
   local shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
   source "$shome/script/profile"
 
-  uname -a
+  local tmp_download="$(mktemp -t XXXXXX)"
+
+  mkdir -p "$shome/vendor/caddy-${CADDY_VERSION}"
+  cd "$shome/vendor/caddy-${CADDY_VERSION}"
+  case "$(uname -s)" in
+    Darwin)
+      curl -s -o "$tmp_download" "https://caddyserver.com/download/$(uname -s | tr 'A-Z' 'a-z')/amd64"
+      unzip -o "$tmp_download" caddy
+      ;;
+    Linux)
+      curl -s -o "$tmp_download" "https://caddyserver.com/download/$(uname -s | tr 'A-Z' 'a-z')/amd64"
+      tar xvfz "$tmp_download" caddy 
+      ;;
+  esac
+
+  rm -f "$tmp_download"
+  chmod 755 caddy
+  mkdir -p "$shome/bin"
+  mv caddy "$shome/bin/"
+
+  rm -rf "$shome/vendor/caddy-${CADDY_VERSION}"
 }
 
 main "$@"
