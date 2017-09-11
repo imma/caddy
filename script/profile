@@ -2,11 +2,7 @@
 
 function _caddy_profile {
   local shome="${_caddy_home:="$(cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)"}"
-  PATH="$shome/bin:$shome/exec:$PATH"
-  #export ANSIBLE_ROLES_PATH="$shome/roles${ANSIBLE_ROLES_PATH:+:${ANSIBLE_ROLES_PATH}}"
-  #export ANSIBLE_LIBRARY="$shome/library${ANSIBLE_LIBRARY:+:${ANSIBLE_LIBRARY}}"
-
-  CADDY_VERSION='0.10.7'
+  PATH="$shome/bin:$PATH"
 }
 
 _caddy_profile
